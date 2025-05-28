@@ -72,9 +72,8 @@ With AR 360-degree’s user-friendly interface and powerful customization option
 Integrate SMART AR VIEWER seamlessly into your WordPress site with shortcodes. You can customize the shortcode string to modify the appearance, environment and lighting of the AR content.
 User Support
 
-Learn to use AR Viewer with easy steps here- [https://bdthemes.com/knowledge-base/how-how-to-use-ar-viewer/](https://bdthemes.com/knowledge-base/how-how-to-use-ar-viewer/)
-Get documentation & samples here- [https://modelviewer.dev/](https://modelviewer.dev/) 
-Contact support for any issue troubleshooting- [https://gdverse.com)
+Get documentation & samples here- (https://github.com/GiorgioDeAngelis/smart-ar-viewer.git) 
+Contact support for any issue troubleshooting- (https://gdverse.com)
 
 = Best Use For =
 
