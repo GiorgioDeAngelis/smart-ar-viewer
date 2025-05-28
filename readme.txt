@@ -1,6 +1,6 @@
 === SMART AR VIEWER ===
 Contributors: GDVERSE
-Donate link: https://github.com/GiorgioDeAngelis
+Donate link: https://github.com/GiorgioDeAngelis/smart-ar-viewer.git
 Tags: augmented-reality, model-viewer, 3d, 360degree, 3d model
 Stable tag: 1.0.0
 Requires PHP: 7.4.0
