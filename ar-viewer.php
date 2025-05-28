@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: SMART AR VIEWER
- * Plugin URI: https://github.com/GDVERSE/smart-ar-viewer
+ * Plugin URI: https://github.com/GiorgioDeAngelis/smart-ar-viewer.git
  * Description: By using this plugin, you can easily create AR Viewer 3D model on your website.
  * Version: 1.0.0
  * Author: GDVERSE.s.r.l.
- * Author URI: https://github.com/GDVERSE
+ * Author URI: https://github.com/GiorgioDeAngelis
  * Text Domain: ar-viewer
  * Domain Path: /languages
  * License: MIT
