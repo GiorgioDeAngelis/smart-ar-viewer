@@ -37,6 +37,7 @@ With this amazing plugin, you can do many things such as 🔥
 == SMART AR VIEWER supports- ==
 
 ✔️ gITF, GLB and USDZ models
+✔️ Local models selection from ar-models folder
 ✔️ Archives
 ✔️ Group and Folders
 ✔️ Custom lighting
@@ -66,6 +67,7 @@ With this amazing plugin, you can do many things such as 🔥
 ✅ **Shadow Control:-** Adjustable shadow intensity from 0 to 10 for realistic lighting effects.
 ✅ **Model Scale:-** Control model size with adjustable scale from 0 to 100%.
 ✅ **Web Model Scale:-** Independent scale control for web view (0-200%, default 50 = 100% original size).
+✅ **Local Models:-** Select models directly from the ar-models folder in the plugin directory.
 ✅ **Light & Environment:-** Adjust lighting and environmental elements to make your 3D model bloom in real time.
 
 == Get SMART AR VIEWER for Elementor ==

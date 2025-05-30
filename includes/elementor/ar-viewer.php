@@ -209,6 +209,10 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 						'title' => esc_html__( 'Self Media', 'ar-viewer' ),
 						'icon'  => 'eicon-image-rollover'
 					],
+					'local'  => [ 
+						'title' => esc_html__( 'Local Models', 'ar-viewer' ),
+						'icon'  => 'eicon-folder'
+					],
 					'remote' => [ 
 						'title' => esc_html__( 'Remote URL', 'ar-viewer' ),
 						'icon'  => 'eicon-link'
@@ -243,6 +247,20 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 					'src_source_type' => 'self'
 				],
 				'media_type'  => 'application/octet-stream',
+			]
+		);
+
+		$this->add_control(
+			'local_model',
+			[ 
+				'label'       => esc_html__( 'Local Model', 'ar-viewer' ),
+				'type'        => \Elementor\Controls_Manager::SELECT,
+				'description' => esc_html__( 'Select a model from the ar-models folder.', 'ar-viewer' ),
+				'render_type' => 'template',
+				'options'     => $this->get_local_models(),
+				'condition'   => [ 
+					'src_source_type' => 'local'
+				],
 			]
 		);
 
@@ -538,6 +556,36 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 	}
 
 	/**
+	 * Get local models from ar-models folder
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @return array
+	 */
+	private function get_local_models() {
+		$models = array( '' => esc_html__( 'Select a model', 'ar-viewer' ) );
+		$models_dir = plugin_dir_path( dirname( dirname( __FILE__ ) ) ) . 'ar-models';
+		
+		if ( is_dir( $models_dir ) ) {
+			$files = scandir( $models_dir );
+			$allowed_extensions = array( 'glb', 'gltf', 'usdz' );
+			
+			foreach ( $files as $file ) {
+				if ( $file === '.' || $file === '..' ) {
+					continue;
+				}
+				
+				$extension = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
+				if ( in_array( $extension, $allowed_extensions ) ) {
+					$models[ $file ] = $file;
+				}
+			}
+		}
+		
+		return $models;
+	}
+
+	/**
 	 * Render oEmbed widget output on the frontend.
 	 *
 	 * Written in PHP and used to generate the final HTML.
@@ -559,6 +607,11 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 		$evn_img   = isset( $settings['environment_image_self']['url'] ) ? $settings['environment_image_self']['url'] : $evn_img; //hdr
 		$model_url = isset( $settings['model_url']['url'] ) ? $settings['model_url']['url'] : ''; //glb
 		$model_url = isset( $settings['model']['url'] ) ? $settings['model']['url'] : $model_url; //glb
+		
+		// Handle local model selection
+		if ( ! empty( $settings['local_model'] ) ) {
+			$model_url = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'ar-models/' . $settings['local_model'];
+		}
 		$thumbnail = isset( $settings['poster']['url'] ) ? $settings['poster']['url'] : '';
 		$thumbnail = isset( $settings['poster_image']['url'] ) ? $settings['poster_image']['url'] : $thumbnail;
 		$alt       = isset( $settings['poster']['id'] ) ? get_post_meta( $settings['poster']['id'], '_wp_attachment_image_alt', true ) : '';
