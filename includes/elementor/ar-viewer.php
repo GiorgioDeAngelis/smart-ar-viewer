@@ -370,6 +370,25 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'model_scale',
+			[ 
+				'label'   => esc_html__( 'Model Scale', 'ar-viewer' ),
+				'type'    => \Elementor\Controls_Manager::SLIDER,
+				'range'   => [ 
+					'px' => [ 
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [ 
+					'unit' => 'px',
+					'size' => 100,
+				],
+				'description' => esc_html__( 'Scale the model size (0-100%).', 'ar-viewer' ),
+			]
+		);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -564,6 +583,12 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 		// Add AR placement mode
 		if ( ! empty( $settings['ar_placement'] ) && 'wall' === $settings['ar_placement'] ) {
 			$this->add_render_attribute( 'ar-viewer', 'ar-placement', 'wall' );
+		}
+
+		// Add model scale
+		if ( ! empty( $settings['model_scale']['size'] ) && $settings['model_scale']['size'] != 100 ) {
+			$scale_value = $settings['model_scale']['size'] / 100;
+			$this->add_render_attribute( 'ar-viewer', 'scale', $scale_value . ' ' . $scale_value . ' ' . $scale_value );
 		}
 
 		?>
