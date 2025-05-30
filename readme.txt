@@ -65,7 +65,7 @@ With this amazing plugin, you can do many things such as 🔥
 ✅ **Camera Settings:-** Customize camera placement for your AR and 3D models.
 ✅ **Shadow Control:-** Adjustable shadow intensity from 0 to 10 for realistic lighting effects.
 ✅ **Model Scale:-** Control model size with adjustable scale from 0 to 100%.
-✅ **Web Model Scale:-** Independent scale control for web view (0-100%, default 50%).
+✅ **Web Model Scale:-** Independent scale control for web view (0-200%, default 50 = 100% original size).
 ✅ **Light & Environment:-** Adjust lighting and environmental elements to make your 3D model bloom in real time.
 
 == Get SMART AR VIEWER for Elementor ==
@@ -88,7 +88,7 @@ Integrate SMART AR VIEWER seamlessly into your WordPress site with shortcodes. Y
 **ar_placement** = AR placement mode (floor/wall) - Default: floor
 **shadow_intensity** = Shadow intensity (0-10) - Default: 1
 **model_scale** = Model scale percentage (0-100) - Default: 100
-**web_model_scale** = Web model scale percentage (0-100) - Default: 50
+**web_model_scale** = Web model scale percentage (0-100) - Default: 50 = 100% scala originale
 
 User Support
 

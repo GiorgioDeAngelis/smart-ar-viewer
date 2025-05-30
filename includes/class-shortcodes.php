@@ -71,8 +71,8 @@ class Shortcodes {
 		(function() {
 			const modelViewer = document.getElementById('<?php echo esc_js( $id ); ?>');
 			if (modelViewer) {
-				// Set initial web scale
-				const webScale = <?php echo esc_js( $web_model_scale ); ?> / 100;
+				// Set initial web scale (50 = 100% original size, 0 = 0%, 100 = 200%)
+				const webScale = <?php echo esc_js( $web_model_scale ); ?> / 50;
 				modelViewer.style.transform = 'scale(' + webScale + ')';
 				modelViewer.style.transformOrigin = 'center center';
 				
