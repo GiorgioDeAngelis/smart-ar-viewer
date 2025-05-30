@@ -112,9 +112,12 @@ class Shortcodes {
 			if (modelViewer) {
 				// Set initial web scale (50 = 100% original size, 0 = 0%, 100 = 200%)
 				const webScale = <?php echo esc_js( $web_model_scale ); ?> / 50;
+				const autoFitEnabled = <?php echo ( 'true' === $atts['auto_fit'] ) ? 'true' : 'false'; ?>;
 				
-				// Apply scale to the 3D model, not the canvas
-				modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
+				// Apply scale to the 3D model only if auto-fit is disabled
+				if (!autoFitEnabled) {
+					modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
+				}
 				
 				// Listen for AR mode changes to reset scale
 				modelViewer.addEventListener('ar-status', function(event) {
@@ -122,8 +125,13 @@ class Shortcodes {
 						// In AR mode, use original scale (1 1 1)
 						modelViewer.scale = '1 1 1';
 					} else if (event.detail.status === 'not-presenting') {
-						// Back to web view, restore web scale
-						modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
+						// Back to web view, restore appropriate scale
+						if (!autoFitEnabled) {
+							modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
+						} else {
+							// Let auto-fit handle the scaling
+							modelViewer.scale = '1 1 1';
+						}
 					}
 				});
 			}
