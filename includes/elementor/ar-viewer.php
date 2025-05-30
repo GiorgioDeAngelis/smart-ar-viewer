@@ -654,6 +654,8 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			'camera-controls'   => '',
 			'touch-action'      => 'pan-y',
 			'tone-mapping'      => 'neutral',
+			'camera-target'     => 'auto auto auto',
+			'field-of-view'     => 'auto',
 		] );
 
 		// Add ios-src for USDZ models

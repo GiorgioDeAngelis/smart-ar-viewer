@@ -103,7 +103,7 @@ class Shortcodes {
 			}
 			?>
 			environment-image="<?php echo esc_url( $evn ); ?>" poster="<?php echo esc_url( $thumbnail ); ?>" shadow-intensity="<?php echo esc_attr( $shadow_intensity ); ?>"
-			camera-controls touch-action="pan-y" style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
+			camera-controls touch-action="pan-y" camera-target="auto auto auto" field-of-view="auto" style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
 		</model-viewer>
 		<script>
 		(function() {
