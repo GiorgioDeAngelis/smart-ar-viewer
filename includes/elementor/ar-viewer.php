@@ -418,7 +418,7 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 					'px' => [ 
 						'min' => 1,
 						'max' => 10,
-						'step' => 0.1,
+						'step' => 1,
 					],
 				],
 				'default' => [ 
