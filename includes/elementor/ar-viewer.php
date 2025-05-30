@@ -714,17 +714,18 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			if (modelViewer) {
 				// Set initial web scale (50 = 100% original size, 0 = 0%, 100 = 200%)
 				const webScale = <?php echo esc_js( $web_scale ); ?> / 50;
-				modelViewer.style.transform = 'scale(' + webScale + ')';
-				modelViewer.style.transformOrigin = 'center center';
+				
+				// Apply scale to the 3D model, not the canvas
+				modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
 				
 				// Listen for AR mode changes to reset scale
 				modelViewer.addEventListener('ar-status', function(event) {
 					if (event.detail.status === 'session-started') {
-						// In AR mode, remove web scale transform
-						modelViewer.style.transform = '';
+						// In AR mode, use original scale (1 1 1)
+						modelViewer.scale = '1 1 1';
 					} else if (event.detail.status === 'not-presenting') {
 						// Back to web view, restore web scale
-						modelViewer.style.transform = 'scale(' + webScale + ')';
+						modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
 					}
 				});
 			}
