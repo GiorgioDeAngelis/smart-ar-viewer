@@ -433,6 +433,30 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section(
+			'ar_section',
+			[ 
+				'label' => esc_html__( 'AR Settings', 'ar-viewer' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'ar_placement',
+			[ 
+				'label'   => esc_html__( 'AR Placement Mode', 'ar-viewer' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
+				'default' => 'floor',
+				'options' => [ 
+					'floor' => esc_html__( 'Floor', 'ar-viewer' ),
+					'wall'  => esc_html__( 'Wall', 'ar-viewer' ),
+				],
+				'description' => esc_html__( 'Choose where the AR model should be placed when viewed in AR mode.', 'ar-viewer' ),
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
 			'style_section',
 			[ 
 				'label' => esc_html__( 'Content', 'ar-viewer' ),
@@ -535,6 +559,11 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 
 		if ( ! empty( $settings['skybox_image_self']['url'] ) ) {
 			$this->add_render_attribute( 'ar-viewer', 'skybox-image', $settings['skybox_image_self']['url'] );
+		}
+
+		// Add AR placement mode
+		if ( ! empty( $settings['ar_placement'] ) && 'wall' === $settings['ar_placement'] ) {
+			$this->add_render_attribute( 'ar-viewer', 'ar-placement', 'wall' );
 		}
 
 		?>

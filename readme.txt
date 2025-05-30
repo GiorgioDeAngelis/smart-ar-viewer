@@ -58,6 +58,8 @@ With this amazing plugin, you can do many things such as 🔥
 ✅ **AR View:-** Turn your 3D models into Augmented Reality for an immersive experience.
 ✅ **Custom Poster:-** You can tailor the poster content of your AR image.
 ✅ **Custom Environment:-** Change the total display environment of your content and customize model placement.
+✅ **AR Placement Mode:-** Choose between floor and wall placement for AR viewing experience.
+✅ **Responsive:-** Responsive for any device.
 ✅ **AR Model:-** Choose your preferred AR model by model viewer project.
 ✅ **Canvas:-** Fully customize the display canvas for frontend presentation.
 ✅ **Camera Settings:-** Customize camera placement for your AR and 3D models.
@@ -70,6 +72,18 @@ With AR 360-degree’s user-friendly interface and powerful customization option
 == Get SMART AR VIEWER in Native WordPress ==
 
 Integrate SMART AR VIEWER seamlessly into your WordPress site with shortcodes. You can customize the shortcode string to modify the appearance, environment and lighting of the AR content.
+= Shortcode =
+
+`[ar_viewer src="" evn="" thumbnail="" alt="" height="700px" width="700px" ar_placement="floor"]`
+
+**src** = Model URL (GLB/GLTF)
+**evn** = Environment Image URL (HDR)
+**thumbnail** = Poster/Thumbnail Image URL
+**alt** = Alternative text for the model
+**height** = Canvas Height
+**width** = Canvas Width
+**ar_placement** = AR placement mode (floor/wall) - Default: floor
+
 User Support
 
 Get documentation & samples here- (https://github.com/GiorgioDeAngelis/smart-ar-viewer.git) 
