@@ -297,19 +297,7 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'auto_fit',
-			[ 
-				'label'        => esc_html__( 'Auto Fit Model', 'ar-viewer' ),
-				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'On', 'ar-viewer' ),
-				'label_off'    => esc_html__( 'Off', 'ar-viewer' ),
-				'return_value' => 'true',
-				'default'      => 'true',
-				'description'  => esc_html__( 'Automatically fit the model within the container for full visibility.', 'ar-viewer' ),
-				'render_type'  => 'template',
-			]
-		);
+
 
 		$this->add_responsive_control(
 			'canvas_width',
@@ -670,11 +658,9 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			'tone-mapping'      => 'neutral',
 		] );
 
-		// Add auto-fit attributes only if enabled
-		if ( 'true' === $settings['auto_fit'] ) {
-			$this->add_render_attribute( 'ar-viewer', 'camera-target', 'auto auto auto' );
-			$this->add_render_attribute( 'ar-viewer', 'field-of-view', 'auto' );
-		}
+		// Add camera attributes for auto-fitting
+		$this->add_render_attribute( 'ar-viewer', 'camera-target', 'auto auto auto' );
+		$this->add_render_attribute( 'ar-viewer', 'field-of-view', 'auto' );
 
 		// Add ios-src for USDZ models
 		if ( ! empty( $ios_src ) ) {
@@ -732,12 +718,9 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			if (modelViewer) {
 				// Set initial web scale (50 = 100% original size, 0 = 0%, 100 = 200%)
 				const webScale = <?php echo esc_js( $web_scale ); ?> / 50;
-				const autoFitEnabled = <?php echo ( 'true' === $settings['auto_fit'] ) ? 'true' : 'false'; ?>;
 				
-				// Apply scale to the 3D model only if auto-fit is disabled
-				if (!autoFitEnabled) {
-					modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
-				}
+				// Apply scale to the 3D model, not the canvas
+				modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
 				
 				// Listen for AR mode changes to reset scale
 				modelViewer.addEventListener('ar-status', function(event) {
@@ -745,13 +728,8 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 						// In AR mode, use original scale (1 1 1)
 						modelViewer.scale = '1 1 1';
 					} else if (event.detail.status === 'not-presenting') {
-						// Back to web view, restore appropriate scale
-						if (!autoFitEnabled) {
-							modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
-						} else {
-							// Let auto-fit handle the scaling
-							modelViewer.scale = '1 1 1';
-						}
+						// Back to web view, restore web scale
+						modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
 					}
 				});
 			}

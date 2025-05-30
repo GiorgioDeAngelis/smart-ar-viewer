@@ -39,7 +39,7 @@ class Shortcodes {
 			'shadow_intensity' => '1',
 			'model_scale'      => '100',
 			'web_model_scale'  => '50',
-			'auto_fit'         => 'true',
+
 		), $atts, 'ar_viewer' );
 
 		$id = 'ar-viewer-' . wp_rand( 10, 1000 );
@@ -104,7 +104,7 @@ class Shortcodes {
 			}
 			?>
 			environment-image="<?php echo esc_url( $evn ); ?>" poster="<?php echo esc_url( $thumbnail ); ?>" shadow-intensity="<?php echo esc_attr( $shadow_intensity ); ?>"
-			camera-controls touch-action="pan-y" <?php if ( 'true' === $atts['auto_fit'] ) { echo 'camera-target="auto auto auto" field-of-view="auto"'; } ?> style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
+			camera-controls touch-action="pan-y" camera-target="auto auto auto" field-of-view="auto" style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
 		</model-viewer>
 		<script>
 		(function() {
@@ -112,12 +112,9 @@ class Shortcodes {
 			if (modelViewer) {
 				// Set initial web scale (50 = 100% original size, 0 = 0%, 100 = 200%)
 				const webScale = <?php echo esc_js( $web_model_scale ); ?> / 50;
-				const autoFitEnabled = <?php echo ( 'true' === $atts['auto_fit'] ) ? 'true' : 'false'; ?>;
 				
-				// Apply scale to the 3D model only if auto-fit is disabled
-				if (!autoFitEnabled) {
-					modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
-				}
+				// Apply scale to the 3D model, not the canvas
+				modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
 				
 				// Listen for AR mode changes to reset scale
 				modelViewer.addEventListener('ar-status', function(event) {
@@ -125,13 +122,8 @@ class Shortcodes {
 						// In AR mode, use original scale (1 1 1)
 						modelViewer.scale = '1 1 1';
 					} else if (event.detail.status === 'not-presenting') {
-						// Back to web view, restore appropriate scale
-						if (!autoFitEnabled) {
-							modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
-						} else {
-							// Let auto-fit handle the scaling
-							modelViewer.scale = '1 1 1';
-						}
+						// Back to web view, restore web scale
+						modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
 					}
 				});
 			}
