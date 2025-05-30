@@ -64,7 +64,41 @@ class Shortcodes {
 			id="<?php echo esc_attr( $id ); ?>" alt="<?php echo esc_attr( $alt ); ?>" src="<?php echo esc_url( $src ); ?>" ar
 			<?php echo ( 'wall' === $ar_placement ) ? 'ar-placement="wall"' : ''; ?>
 			<?php if ( $model_scale != 100 ) { $scale_value = $model_scale / 100; echo 'scale="' . esc_attr( $scale_value . ' ' . $scale_value . ' ' . $scale_value ) . '"'; } ?>
-			<?php if ( ! empty( $src ) && strtolower( pathinfo( $src, PATHINFO_EXTENSION ) ) === 'usdz' ) { echo 'ios-src="' . esc_url( $src ) . '"'; } ?>
+			<?php 
+			// Handle USDZ fallback for web display
+			$ios_src = '';
+			if ( ! empty( $src ) && strtolower( pathinfo( $src, PATHINFO_EXTENSION ) ) === 'usdz' ) {
+				$ios_src = $src;
+				// Look for GLB/GLTF fallback for web display
+				$base_name = pathinfo( $src, PATHINFO_FILENAME );
+				$dir_path = dirname( $src );
+				
+				// Try to find GLB version first, then GLTF
+				$glb_fallback = $dir_path . '/' . $base_name . '.glb';
+				$gltf_fallback = $dir_path . '/' . $base_name . '.gltf';
+				
+				// For shortcodes, we can only check URL-based fallbacks
+				// Check if this is a local file (contains plugin directory)
+				if ( strpos( $src, plugin_dir_url( dirname( __FILE__ ) ) ) !== false ) {
+					// Check if GLB fallback exists
+					$glb_file_path = str_replace( plugin_dir_url( dirname( __FILE__ ) ), plugin_dir_path( dirname( __FILE__ ) ), $glb_fallback );
+					if ( file_exists( $glb_file_path ) ) {
+						$src = $glb_fallback;
+					} else {
+						// Check if GLTF fallback exists
+						$gltf_file_path = str_replace( plugin_dir_url( dirname( __FILE__ ) ), plugin_dir_path( dirname( __FILE__ ) ), $gltf_fallback );
+						if ( file_exists( $gltf_file_path ) ) {
+							$src = $gltf_fallback;
+						}
+					}
+				}
+			}
+			
+			// Add ios-src for USDZ models
+			if ( ! empty( $ios_src ) ) {
+				echo 'ios-src="' . esc_url( $ios_src ) . '"';
+			}
+			?>
 			environment-image="<?php echo esc_url( $evn ); ?>" poster="<?php echo esc_url( $thumbnail ); ?>" shadow-intensity="<?php echo esc_attr( $shadow_intensity ); ?>"
 			camera-controls touch-action="pan-y" style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
 		</model-viewer>

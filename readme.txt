@@ -68,6 +68,7 @@ With this amazing plugin, you can do many things such as 🔥
 ✅ **Model Scale:-** Control model size with adjustable scale from 0 to 100%.
 ✅ **Web Model Scale:-** Independent scale control for web view (0-200%, default 50 = 100% original size).
 ✅ **Local Models:-** Select models directly from the ar-models folder in the plugin directory.
+✅ **USDZ Fallback:-** Automatic GLB/GLTF fallback for USDZ models to ensure web compatibility.
 ✅ **Light & Environment:-** Adjust lighting and environmental elements to make your 3D model bloom in real time.
 
 == Get SMART AR VIEWER for Elementor ==

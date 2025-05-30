@@ -612,6 +612,31 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 		if ( ! empty( $settings['local_model'] ) ) {
 			$model_url = plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'ar-models/' . $settings['local_model'];
 		}
+		
+		// Handle USDZ fallback for web display
+		$ios_src = '';
+		if ( ! empty( $model_url ) && strtolower( pathinfo( $model_url, PATHINFO_EXTENSION ) ) === 'usdz' ) {
+			$ios_src = $model_url;
+			// Look for GLB/GLTF fallback for web display
+			$base_name = pathinfo( $model_url, PATHINFO_FILENAME );
+			$dir_path = dirname( $model_url );
+			
+			// Try to find GLB version first, then GLTF
+			$glb_fallback = $dir_path . '/' . $base_name . '.glb';
+			$gltf_fallback = $dir_path . '/' . $base_name . '.gltf';
+			
+			// Check if GLB fallback exists
+			$glb_file_path = str_replace( plugin_dir_url( dirname( dirname( __FILE__ ) ) ), plugin_dir_path( dirname( dirname( __FILE__ ) ) ), $glb_fallback );
+			if ( file_exists( $glb_file_path ) ) {
+				$model_url = $glb_fallback;
+			} else {
+				// Check if GLTF fallback exists
+				$gltf_file_path = str_replace( plugin_dir_url( dirname( dirname( __FILE__ ) ) ), plugin_dir_path( dirname( dirname( __FILE__ ) ) ), $gltf_fallback );
+				if ( file_exists( $gltf_file_path ) ) {
+					$model_url = $gltf_fallback;
+				}
+			}
+		}
 		$thumbnail = isset( $settings['poster']['url'] ) ? $settings['poster']['url'] : '';
 		$thumbnail = isset( $settings['poster_image']['url'] ) ? $settings['poster_image']['url'] : $thumbnail;
 		$alt       = isset( $settings['poster']['id'] ) ? get_post_meta( $settings['poster']['id'], '_wp_attachment_image_alt', true ) : '';
@@ -629,8 +654,8 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 		] );
 
 		// Add ios-src for USDZ models
-		if ( ! empty( $model_url ) && strtolower( pathinfo( $model_url, PATHINFO_EXTENSION ) ) === 'usdz' ) {
-			$this->add_render_attribute( 'ar-viewer', 'ios-src', $model_url );
+		if ( ! empty( $ios_src ) ) {
+			$this->add_render_attribute( 'ar-viewer', 'ios-src', $ios_src );
 		}
 
 		if ( 'true' === $settings['auto_rotate'] ) {
