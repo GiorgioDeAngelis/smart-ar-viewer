@@ -28,23 +28,25 @@ class Shortcodes {
 		);
 
 		$atts = shortcode_atts( array(
-			'id'           => '',
-			'src'          => '',
-			'evn'          => '',
-			'thumbnail'    => '',
-			'alt'          => '',
-			'height'       => '700px',
-			'width'        => '700px',
-			'ar_placement' => 'floor',
+			'id'               => '',
+			'src'              => '',
+			'evn'              => '',
+			'thumbnail'        => '',
+			'alt'              => '',
+			'height'           => '700px',
+			'width'            => '700px',
+			'ar_placement'     => 'floor',
+			'shadow_intensity' => '1',
 		), $atts, 'ar_viewer' );
 
 		$id = 'ar-viewer-' . wp_rand( 10, 1000 );
 
-		$evn          = ( isset( $atts['evn'] ) && ! empty( $atts['evn'] ) ) ? $atts['evn'] : ''; //hdr
-		$src          = ( isset( $atts['src'] ) && ! empty( $atts['src'] ) ) ? $atts['src'] : ''; //glb
-		$thumbnail    = ( isset( $atts['thumbnail'] ) && ! empty( $atts['thumbnail'] ) ) ? $atts['thumbnail'] : '';
-		$alt          = ( isset( $atts['alt'] ) && ! empty( $atts['alt'] ) ) ? $atts['alt'] : '';
-		$ar_placement = ( isset( $atts['ar_placement'] ) && ! empty( $atts['ar_placement'] ) ) ? $atts['ar_placement'] : 'floor';
+		$evn              = ( isset( $atts['evn'] ) && ! empty( $atts['evn'] ) ) ? $atts['evn'] : ''; //hdr
+		$src              = ( isset( $atts['src'] ) && ! empty( $atts['src'] ) ) ? $atts['src'] : ''; //glb
+		$thumbnail        = ( isset( $atts['thumbnail'] ) && ! empty( $atts['thumbnail'] ) ) ? $atts['thumbnail'] : '';
+		$alt              = ( isset( $atts['alt'] ) && ! empty( $atts['alt'] ) ) ? $atts['alt'] : '';
+		$ar_placement     = ( isset( $atts['ar_placement'] ) && ! empty( $atts['ar_placement'] ) ) ? $atts['ar_placement'] : 'floor';
+		$shadow_intensity = ( isset( $atts['shadow_intensity'] ) && is_numeric( $atts['shadow_intensity'] ) ) ? max( 0, min( 10, floatval( $atts['shadow_intensity'] ) ) ) : 1;
 
 		ob_start();
 
@@ -52,7 +54,7 @@ class Shortcodes {
 		<model-viewer width="<?php echo esc_attr( $atts['width'] ); ?>" height="<?php echo esc_attr( $atts['height'] ); ?>"
 			id="<?php echo esc_attr( $id ); ?>" alt="<?php echo esc_attr( $alt ); ?>" src="<?php echo esc_url( $src ); ?>" ar
 			<?php echo ( 'wall' === $ar_placement ) ? 'ar-placement="wall"' : ''; ?>
-			environment-image="<?php echo esc_url( $evn ); ?>" poster="<?php echo esc_url( $thumbnail ); ?>" shadow-intensity="1"
+			environment-image="<?php echo esc_url( $evn ); ?>" poster="<?php echo esc_url( $thumbnail ); ?>" shadow-intensity="<?php echo esc_attr( $shadow_intensity ); ?>"
 			camera-controls touch-action="pan-y" style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
 		</model-viewer>
 		<?php

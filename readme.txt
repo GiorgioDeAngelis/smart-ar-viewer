@@ -63,6 +63,7 @@ With this amazing plugin, you can do many things such as 🔥
 ✅ **AR Model:-** Choose your preferred AR model by model viewer project.
 ✅ **Canvas:-** Fully customize the display canvas for frontend presentation.
 ✅ **Camera Settings:-** Customize camera placement for your AR and 3D models.
+✅ **Shadow Control:-** Adjustable shadow intensity from 0 to 10 for realistic lighting effects.
 ✅ **Light & Environment:-** Adjust lighting and environmental elements to make your 3D model bloom in real time.
 
 == Get SMART AR VIEWER for Elementor ==
@@ -74,7 +75,7 @@ With AR 360-degree’s user-friendly interface and powerful customization option
 Integrate SMART AR VIEWER seamlessly into your WordPress site with shortcodes. You can customize the shortcode string to modify the appearance, environment and lighting of the AR content.
 = Shortcode =
 
-`[ar_viewer src="" evn="" thumbnail="" alt="" height="700px" width="700px" ar_placement="floor"]`
+`[ar_viewer src="" evn="" thumbnail="" alt="" height="700px" width="700px" ar_placement="floor" shadow_intensity="1"]`
 
 **src** = Model URL (GLB/GLTF)
 **evn** = Environment Image URL (HDR)
@@ -83,6 +84,7 @@ Integrate SMART AR VIEWER seamlessly into your WordPress site with shortcodes. Y
 **height** = Canvas Height
 **width** = Canvas Width
 **ar_placement** = AR placement mode (floor/wall) - Default: floor
+**shadow_intensity** = Shadow intensity (0-10) - Default: 1
 
 User Support
 
