@@ -39,6 +39,7 @@ class Shortcodes {
 			'shadow_intensity' => '1',
 			'model_scale'      => '100',
 			'web_model_scale'  => '50',
+			'auto_fit'         => 'true',
 		), $atts, 'ar_viewer' );
 
 		$id = 'ar-viewer-' . wp_rand( 10, 1000 );
@@ -103,7 +104,7 @@ class Shortcodes {
 			}
 			?>
 			environment-image="<?php echo esc_url( $evn ); ?>" poster="<?php echo esc_url( $thumbnail ); ?>" shadow-intensity="<?php echo esc_attr( $shadow_intensity ); ?>"
-			camera-controls touch-action="pan-y" camera-target="auto auto auto" field-of-view="auto" style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
+			camera-controls touch-action="pan-y" <?php if ( 'true' === $atts['auto_fit'] ) { echo 'camera-target="auto auto auto" field-of-view="auto"'; } ?> style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
 		</model-viewer>
 		<script>
 		(function() {

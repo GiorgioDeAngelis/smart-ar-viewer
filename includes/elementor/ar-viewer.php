@@ -297,6 +297,20 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'auto_fit',
+			[ 
+				'label'        => esc_html__( 'Auto Fit Model', 'ar-viewer' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'On', 'ar-viewer' ),
+				'label_off'    => esc_html__( 'Off', 'ar-viewer' ),
+				'return_value' => 'true',
+				'default'      => 'true',
+				'description'  => esc_html__( 'Automatically fit the model within the container for full visibility.', 'ar-viewer' ),
+				'render_type'  => 'template',
+			]
+		);
+
 		$this->add_responsive_control(
 			'canvas_width',
 			[ 
@@ -654,9 +668,13 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			'camera-controls'   => '',
 			'touch-action'      => 'pan-y',
 			'tone-mapping'      => 'neutral',
-			'camera-target'     => 'auto auto auto',
-			'field-of-view'     => 'auto',
 		] );
+
+		// Add auto-fit attributes only if enabled
+		if ( 'true' === $settings['auto_fit'] ) {
+			$this->add_render_attribute( 'ar-viewer', 'camera-target', 'auto auto auto' );
+			$this->add_render_attribute( 'ar-viewer', 'field-of-view', 'auto' );
+		}
 
 		// Add ios-src for USDZ models
 		if ( ! empty( $ios_src ) ) {
