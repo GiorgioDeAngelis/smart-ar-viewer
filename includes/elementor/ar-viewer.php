@@ -717,8 +717,17 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 		(function() {
 			const modelViewer = document.getElementById('<?php echo esc_js( $unique_id ); ?>');
 			if (modelViewer) {
-				// Set initial web scale (50 = 100% original size, 0 = 0%, 100 = 200%)
-				const webScale = <?php echo esc_js( $web_scale ); ?> / 50;
+				// Set initial web scale with proper mapping for range 1-200
+				// Values 1-49: scale 0.02-0.98, Value 50: scale 1.0, Values 51-200: scale 1.02-4.0
+				const sliderValue = <?php echo esc_js( $web_scale ); ?>;
+				let webScale;
+				if (sliderValue <= 50) {
+					// Map 1-50 to 0.02-1.0
+					webScale = (sliderValue - 1) * 0.98 / 49 + 0.02;
+				} else {
+					// Map 51-200 to 1.02-4.0
+					webScale = (sliderValue - 50) * 2.98 / 150 + 1.02;
+				}
 				
 				// Apply scale to the 3D model, not the canvas
 				modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
