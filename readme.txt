@@ -95,8 +95,9 @@ This section describes how to install the plugin and get it working.
 
 e.g.
 
-1. Upload the `ar-viewer` folder to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
+1. Installa il plugin tramite il pannello 'Plugin > Aggiungi nuovo' di WordPress (la cartella `ar-viewer` verrà creata automaticamente nel percorso `/wp-content/plugins/`)
+2. In alternativa, carica manualmente la cartella `ar-viewer` nella directory `/wp-content/plugins/`
+3. Attiva il plugin attraverso il menu 'Plugin' in WordPress
 
 
 == Changelog ==
