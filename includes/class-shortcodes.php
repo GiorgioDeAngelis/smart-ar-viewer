@@ -38,6 +38,7 @@ class Shortcodes {
 			'ar_placement'     => 'floor',
 			'shadow_intensity' => '1',
 			'model_scale'      => '100',
+			'web_model_scale'  => '50',
 		), $atts, 'ar_viewer' );
 
 		$id = 'ar-viewer-' . wp_rand( 10, 1000 );
@@ -49,6 +50,12 @@ class Shortcodes {
 		$ar_placement     = ( isset( $atts['ar_placement'] ) && ! empty( $atts['ar_placement'] ) ) ? $atts['ar_placement'] : 'floor';
 		$shadow_intensity = ( isset( $atts['shadow_intensity'] ) && is_numeric( $atts['shadow_intensity'] ) ) ? max( 0, min( 10, floatval( $atts['shadow_intensity'] ) ) ) : 1;
 		$model_scale      = ( isset( $atts['model_scale'] ) && is_numeric( $atts['model_scale'] ) ) ? max( 0, min( 100, floatval( $atts['model_scale'] ) ) ) : 100;
+		$web_model_scale  = ( isset( $atts['web_model_scale'] ) && is_numeric( $atts['web_model_scale'] ) ) ? max( 0, min( 100, floatval( $atts['web_model_scale'] ) ) ) : 50;
+
+		// Generate unique ID if not provided
+		if ( empty( $id ) ) {
+			$id = 'ar-viewer-shortcode-' . wp_rand( 1000, 9999 );
+		}
 
 		ob_start();
 
@@ -60,6 +67,28 @@ class Shortcodes {
 			environment-image="<?php echo esc_url( $evn ); ?>" poster="<?php echo esc_url( $thumbnail ); ?>" shadow-intensity="<?php echo esc_attr( $shadow_intensity ); ?>"
 			camera-controls touch-action="pan-y" style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
 		</model-viewer>
+		<script>
+		(function() {
+			const modelViewer = document.getElementById('<?php echo esc_js( $id ); ?>');
+			if (modelViewer) {
+				// Set initial web scale
+				const webScale = <?php echo esc_js( $web_model_scale ); ?> / 100;
+				modelViewer.style.transform = 'scale(' + webScale + ')';
+				modelViewer.style.transformOrigin = 'center center';
+				
+				// Listen for AR mode changes to reset scale
+				modelViewer.addEventListener('ar-status', function(event) {
+					if (event.detail.status === 'session-started') {
+						// In AR mode, remove web scale transform
+						modelViewer.style.transform = '';
+					} else if (event.detail.status === 'not-presenting') {
+						// Back to web view, restore web scale
+						modelViewer.style.transform = 'scale(' + webScale + ')';
+					}
+				});
+			}
+		})();
+		</script>
 		<?php
 
 		return ob_get_clean();

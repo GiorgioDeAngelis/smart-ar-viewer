@@ -373,7 +373,7 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'model_scale',
 			[ 
-				'label'   => esc_html__( 'Model Scale', 'ar-viewer' ),
+				'label'   => esc_html__( 'AR Model Scale', 'ar-viewer' ),
 				'type'    => \Elementor\Controls_Manager::SLIDER,
 				'range'   => [ 
 					'px' => [ 
@@ -385,7 +385,26 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 					'unit' => 'px',
 					'size' => 100,
 				],
-				'description' => esc_html__( 'Scale the model size (0-100%).', 'ar-viewer' ),
+				'description' => esc_html__( 'Scale the model size in AR mode (0-100%).', 'ar-viewer' ),
+			]
+		);
+
+		$this->add_control(
+			'web_model_scale',
+			[ 
+				'label'   => esc_html__( 'Web Model Scale', 'ar-viewer' ),
+				'type'    => \Elementor\Controls_Manager::SLIDER,
+				'range'   => [ 
+					'px' => [ 
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [ 
+					'unit' => 'px',
+					'size' => 50,
+				],
+				'description' => esc_html__( 'Scale the model size in web view (0-100%). Default 50% allows both increase and decrease.', 'ar-viewer' ),
 			]
 		);
 
@@ -585,15 +604,44 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			$this->add_render_attribute( 'ar-viewer', 'ar-placement', 'wall' );
 		}
 
-		// Add model scale
+		// Add AR model scale
 		if ( ! empty( $settings['model_scale']['size'] ) && $settings['model_scale']['size'] != 100 ) {
 			$scale_value = $settings['model_scale']['size'] / 100;
 			$this->add_render_attribute( 'ar-viewer', 'scale', $scale_value . ' ' . $scale_value . ' ' . $scale_value );
 		}
 
+		// Generate unique ID for this model-viewer
+		$unique_id = 'ar-viewer-' . wp_rand( 1000, 9999 );
+		$this->add_render_attribute( 'ar-viewer', 'id', $unique_id );
+
+		// Get web scale value
+		$web_scale = ! empty( $settings['web_model_scale']['size'] ) ? $settings['web_model_scale']['size'] : 50;
+
 		?>
 		<model-viewer ar <?php $this->print_render_attribute_string( 'ar-viewer' ); ?>>
 		</model-viewer>
+		<script>
+		(function() {
+			const modelViewer = document.getElementById('<?php echo esc_js( $unique_id ); ?>');
+			if (modelViewer) {
+				// Set initial web scale
+				const webScale = <?php echo esc_js( $web_scale ); ?> / 100;
+				modelViewer.style.transform = 'scale(' + webScale + ')';
+				modelViewer.style.transformOrigin = 'center center';
+				
+				// Listen for AR mode changes to reset scale
+				modelViewer.addEventListener('ar-status', function(event) {
+					if (event.detail.status === 'session-started') {
+						// In AR mode, remove web scale transform
+						modelViewer.style.transform = '';
+					} else if (event.detail.status === 'not-presenting') {
+						// Back to web view, restore web scale
+						modelViewer.style.transform = 'scale(' + webScale + ')';
+					}
+				});
+			}
+		})();
+		</script>
 		<?php
 	}
 }
