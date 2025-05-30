@@ -83,16 +83,19 @@ class Shortcodes {
 					// Check if GLB fallback exists
 					$glb_file_path = str_replace( plugin_dir_url( dirname( __FILE__ ) ), plugin_dir_path( dirname( __FILE__ ) ), $glb_fallback );
 					if ( file_exists( $glb_file_path ) ) {
-						$src = $glb_fallback;
+					$src = $glb_fallback;
+				} else {
+					// Check if GLTF fallback exists
+					$gltf_file_path = str_replace( plugin_dir_url( dirname( __FILE__ ) ), plugin_dir_path( dirname( __FILE__ ) ), $gltf_fallback );
+					if ( file_exists( $gltf_file_path ) ) {
+						$src = $gltf_fallback;
 					} else {
-						// Check if GLTF fallback exists
-						$gltf_file_path = str_replace( plugin_dir_url( dirname( __FILE__ ) ), plugin_dir_path( dirname( __FILE__ ) ), $gltf_fallback );
-						if ( file_exists( $gltf_file_path ) ) {
-							$src = $gltf_fallback;
-						}
+						// If no fallback found, set src to empty to prevent USDZ from being used as src
+						$src = '';
 					}
 				}
 			}
+		}
 			
 			// Add ios-src for USDZ models
 			if ( ! empty( $ios_src ) ) {

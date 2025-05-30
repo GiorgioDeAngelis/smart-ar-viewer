@@ -634,6 +634,9 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 				$gltf_file_path = str_replace( plugin_dir_url( dirname( dirname( __FILE__ ) ) ), plugin_dir_path( dirname( dirname( __FILE__ ) ) ), $gltf_fallback );
 				if ( file_exists( $gltf_file_path ) ) {
 					$model_url = $gltf_fallback;
+				} else {
+					// If no fallback found, set model_url to empty to prevent USDZ from being used as src
+					$model_url = '';
 				}
 			}
 		}
