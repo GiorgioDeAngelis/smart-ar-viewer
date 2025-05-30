@@ -417,15 +417,15 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 				'range'   => [ 
 					'px' => [ 
 						'min' => 1,
-						'max' => 200,
-						'step' => 1,
+						'max' => 10,
+						'step' => 0.1,
 					],
 				],
 				'default' => [ 
 					'unit' => 'px',
-					'size' => 50,
+					'size' => 10,
 				],
-				'description' => esc_html__( 'Scale the model size in web view. 50 = original size (1:1), values >50 increase size, values <50 decrease size.', 'ar-viewer' ),
+				'description' => esc_html__( 'Adjust the scale of the 3D model in web view. 10 represents the original size (1:1). Lower values decrease the model\'s size.', 'ar-viewer' ),
 			]
 		);
 
@@ -717,17 +717,8 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 		(function() {
 			const modelViewer = document.getElementById('<?php echo esc_js( $unique_id ); ?>');
 			if (modelViewer) {
-				// Set initial web scale with proper mapping for range 1-200
-				// Values 1-49: scale 0.02-0.98, Value 50: scale 1.0, Values 51-200: scale 1.02-4.0
-				const sliderValue = <?php echo esc_js( $web_scale ); ?>;
-				let webScale;
-				if (sliderValue <= 50) {
-					// Map 1-50 to 0.02-1.0
-					webScale = (sliderValue - 1) * 0.98 / 49 + 0.02;
-				} else {
-					// Map 51-200 to 1.02-4.0
-					webScale = (sliderValue - 50) * 2.98 / 150 + 1.02;
-				}
+				// Set initial web scale for range 1-10 (10 = original size 1:1)
+				const webScale = <?php echo esc_js( $web_scale ); ?> / 10;
 				
 				// Apply scale to the 3D model, not the canvas
 				modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;

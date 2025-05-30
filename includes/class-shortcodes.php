@@ -51,7 +51,7 @@ class Shortcodes {
 		$ar_placement     = ( isset( $atts['ar_placement'] ) && ! empty( $atts['ar_placement'] ) ) ? $atts['ar_placement'] : 'floor';
 		$shadow_intensity = ( isset( $atts['shadow_intensity'] ) && is_numeric( $atts['shadow_intensity'] ) ) ? max( 0, min( 10, floatval( $atts['shadow_intensity'] ) ) ) : 1;
 		$model_scale      = ( isset( $atts['model_scale'] ) && is_numeric( $atts['model_scale'] ) ) ? max( 0, min( 100, floatval( $atts['model_scale'] ) ) ) : 100;
-		$web_model_scale  = ( isset( $atts['web_model_scale'] ) && is_numeric( $atts['web_model_scale'] ) ) ? max( 0, min( 100, floatval( $atts['web_model_scale'] ) ) ) : 50;
+		$web_model_scale  = ( isset( $atts['web_model_scale'] ) && is_numeric( $atts['web_model_scale'] ) ) ? max( 1, min( 10, floatval( $atts['web_model_scale'] ) ) ) : 10;
 
 		// Generate unique ID if not provided
 		if ( empty( $id ) ) {
@@ -110,17 +110,8 @@ class Shortcodes {
 		(function() {
 			const modelViewer = document.getElementById('<?php echo esc_js( $id ); ?>');
 			if (modelViewer) {
-				// Set initial web scale with proper mapping for range 1-200
-			// Values 1-49: scale 0.02-0.98, Value 50: scale 1.0, Values 51-200: scale 1.02-4.0
-			const sliderValue = <?php echo esc_js( $web_model_scale ); ?>;
-			let webScale;
-			if (sliderValue <= 50) {
-				// Map 1-50 to 0.02-1.0
-				webScale = (sliderValue - 1) * 0.98 / 49 + 0.02;
-			} else {
-				// Map 51-200 to 1.02-4.0
-				webScale = (sliderValue - 50) * 2.98 / 150 + 1.02;
-			}
+				// Set initial web scale for range 1-10 (10 = original size 1:1)
+			const webScale = <?php echo esc_js( $web_model_scale ); ?> / 10;
 				
 				// Apply scale to the 3D model, not the canvas
 				modelViewer.scale = webScale + ' ' + webScale + ' ' + webScale;
