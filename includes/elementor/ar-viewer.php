@@ -416,15 +416,16 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 				'type'    => \Elementor\Controls_Manager::SLIDER,
 				'range'   => [ 
 					'px' => [ 
-						'min' => 0,
-						'max' => 100,
+						'min' => 1,
+						'max' => 200,
+						'step' => 1,
 					],
 				],
 				'default' => [ 
 					'unit' => 'px',
 					'size' => 50,
 				],
-				'description' => esc_html__( 'Scale the model size in web view (0-100%). Default 50% allows both increase and decrease.', 'ar-viewer' ),
+				'description' => esc_html__( 'Scale the model size in web view. 50 = original size (1:1), values >50 increase size, values <50 decrease size.', 'ar-viewer' ),
 			]
 		);
 
