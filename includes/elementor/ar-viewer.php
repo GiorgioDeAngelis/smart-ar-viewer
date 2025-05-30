@@ -222,7 +222,7 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			[ 
 				'label'       => esc_html__( 'Model', 'ar-viewer' ),
 				'type'        => \Elementor\Controls_Manager::URL,
-				'description' => esc_html__( 'The URL of the glTF or GLB model to be displayed.', 'ar-viewer' ),
+				'description' => esc_html__( 'The URL of the glTF, GLB or USDZ model to be displayed.', 'ar-viewer' ),
 				'render_type' => 'template',
 				'options'     => false,
 				'condition'   => [ 
@@ -574,6 +574,11 @@ class Ar_Viewer_Elementor_Widget extends \Elementor\Widget_Base {
 			'touch-action'      => 'pan-y',
 			'tone-mapping'      => 'neutral',
 		] );
+
+		// Add ios-src for USDZ models
+		if ( ! empty( $model_url ) && strtolower( pathinfo( $model_url, PATHINFO_EXTENSION ) ) === 'usdz' ) {
+			$this->add_render_attribute( 'ar-viewer', 'ios-src', $model_url );
+		}
 
 		if ( 'true' === $settings['auto_rotate'] ) {
 			$this->add_render_attribute( 'ar-viewer', 'auto-rotate', '' );

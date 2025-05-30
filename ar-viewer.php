@@ -82,6 +82,7 @@ function ar_viewer_support_mime_types( $mimes ) {
 	$_mimes = [ 
 		'glb'  => 'model/gltf-binary',
 		'gltf' => 'model/gltf-binary',
+		'usdz' => 'model/vnd.usdz+zip',
 		'obj'  => 'model/obj',
 		'3ds'  => 'application/x-3ds',
 		'step' => 'application/step',

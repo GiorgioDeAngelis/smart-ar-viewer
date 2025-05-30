@@ -36,7 +36,7 @@ With this amazing plugin, you can do many things such as 🔥
 
 == SMART AR VIEWER supports- ==
 
-✔️ gITF and GLB models
+✔️ gITF, GLB and USDZ models
 ✔️ Archives
 ✔️ Group and Folders
 ✔️ Custom lighting
@@ -79,7 +79,7 @@ Integrate SMART AR VIEWER seamlessly into your WordPress site with shortcodes. Y
 
 `[ar_viewer src="" evn="" thumbnail="" alt="" height="700px" width="700px" ar_placement="floor" shadow_intensity="1" model_scale="100"]`
 
-**src** = Model URL (GLB/GLTF)
+**src** = Model URL (GLB/GLTF/USDZ)
 **evn** = Environment Image URL (HDR)
 **thumbnail** = Poster/Thumbnail Image URL
 **alt** = Alternative text for the model

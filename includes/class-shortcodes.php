@@ -64,6 +64,7 @@ class Shortcodes {
 			id="<?php echo esc_attr( $id ); ?>" alt="<?php echo esc_attr( $alt ); ?>" src="<?php echo esc_url( $src ); ?>" ar
 			<?php echo ( 'wall' === $ar_placement ) ? 'ar-placement="wall"' : ''; ?>
 			<?php if ( $model_scale != 100 ) { $scale_value = $model_scale / 100; echo 'scale="' . esc_attr( $scale_value . ' ' . $scale_value . ' ' . $scale_value ) . '"'; } ?>
+			<?php if ( ! empty( $src ) && strtolower( pathinfo( $src, PATHINFO_EXTENSION ) ) === 'usdz' ) { echo 'ios-src="' . esc_url( $src ) . '"'; } ?>
 			environment-image="<?php echo esc_url( $evn ); ?>" poster="<?php echo esc_url( $thumbnail ); ?>" shadow-intensity="<?php echo esc_attr( $shadow_intensity ); ?>"
 			camera-controls touch-action="pan-y" style="width: <?php echo esc_attr( $atts['width'] ); ?>; height:<?php echo esc_attr( $atts['height'] ); ?>;">
 		</model-viewer>
